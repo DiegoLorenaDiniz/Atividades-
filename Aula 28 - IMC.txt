@@ -1,0 +1,35 @@
+// C++ code
+//
+
+float altura = 1.78;
+float peso = 90;
+float imc;
+
+void setup()
+{
+  
+Serial.begin(9600);
+ 
+  //Calculo
+  imc=peso/(sq(altura));
+  Serial.print ("Seu IMC eh ");
+  Serial.print (imc);
+ 
+  if (imc>=30){
+    Serial.println (" Obesidade");
+    
+  } else if (imc<30 & imc>=25){
+Serial.println (" Sobrepeso"); 
+    
+  } else if (imc<25 & imc>= 18.5){
+ Serial.println (" Normal");
+    
+  } else {
+    Serial.println (" Baixo Peso");   
+  }
+}
+
+void loop()
+{
+ 
+}

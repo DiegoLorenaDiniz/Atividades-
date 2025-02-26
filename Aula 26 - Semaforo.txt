@@ -1,0 +1,84 @@
+/* Autor: Diego Lorena Diniz
+Nome Programa: Pisca-Pisca
+Descrição: Este é o meu primeiro código em Arduino. 
+           Pisca o pino 13.
+Data: 20/02/2025
+*/
+
+#define semaforored1 13
+#define semaforoyellow1 12
+#define semaforogreen1 11
+#define semaforored2 10
+#define semaforoyellow2 9
+#define semaforogreen2 8
+#define pedestrered1 7
+#define pedestregreen1 6
+#define pedestrered2 5
+#define pedestregreen2 4
+
+void setup ()               // Inícia o arduino
+{
+  pinMode (semaforored1, OUTPUT);   // Define pino 13 como saída
+  pinMode (semaforoyellow1, OUTPUT);   // Define pino 12 como saída
+  pinMode (semaforogreen1, OUTPUT);   // Define pino 11 como saída
+  pinMode (semaforored2, OUTPUT);   // Define pino 10 como saída
+  pinMode (semaforoyellow2, OUTPUT);    // Define pino 9 como saída
+  pinMode (semaforogreen2, OUTPUT);    // Define pino 8 como saída
+  pinMode (pedestrered1, OUTPUT);    // Define pino 7 como saída
+  pinMode (pedestregreen1, OUTPUT);    // Define pino 6 como saída
+  pinMode (pedestrered2, OUTPUT);    // Define pino 5 como saída
+  pinMode (pedestregreen2, OUTPUT);    // Define pino 4 como saída
+  
+}
+void loop ()               // Coloca o programa em loop
+  {
+  digitalWrite (semaforored1, HIGH);      //Acende vermelho 1
+  digitalWrite (semaforogreen2, HIGH);    //Acende verde 2
+  digitalWrite (semaforoyellow1, LOW);    //Apaga amarelo 1
+  digitalWrite (semaforored2, LOW);       //Apaga vermelho 2
+  digitalWrite(pedestregreen1,HIGH);      //Acende verde 1
+  digitalWrite (pedestrered1,LOW);        //Apaga pedestre vermelho 1
+  digitalWrite (pedestrered2, HIGH);      //Acende pedestre vermelho 2
+  digitalWrite (pedestregreen2, LOW);     //Apaga pedestre verde 2
+  delay (3000);                           // delay 3 s
+  
+  digitalWrite (semaforogreen2, LOW);     //Apaga verde 2
+  digitalWrite (semaforoyellow2,HIGH);    //Acende amarelo 2
+  digitalWrite (pedestregreen1, LOW);     //Apaga verde 1
+  digitalWrite (pedestrered1, HIGH);      //Pisca pedestre vermelho 1
+  delay (500);                            // delay 0,5 s
+  digitalWrite (pedestrered1, LOW);       
+  delay (500);
+  digitalWrite (pedestrered1, HIGH);
+  delay (500);
+  digitalWrite (pedestrered1, LOW);
+  delay (500);
+  digitalWrite (pedestrered1, HIGH);
+  delay (500);
+ 
+  
+  digitalWrite (semaforored1, LOW);         //Apaga vermelho 1
+  digitalWrite (semaforoyellow2, LOW);      //Apaga amarelho 2
+  digitalWrite (semaforored2, HIGH);        //Acende vermelho 2
+  digitalWrite(semaforogreen1, HIGH);       //Acende verde 1
+  digitalWrite (pedestrered1, HIGH);        //Acende pedestre vermelho 1
+  digitalWrite (pedestregreen1,LOW);        //Apaga pedestre verde 1
+  digitalWrite (pedestregreen2, HIGH);      //Acende pedestre verde 2
+  digitalWrite (pedestrered2, LOW);         //Apaga pedestre vermelho 2
+  delay (3000);                             //delay 3 s
+  
+  digitalWrite (semaforogreen1, LOW);       //Apaga verde 1
+  digitalWrite (semaforoyellow1, HIGH);     //Acende amarelo 1
+  digitalWrite (pedestregreen2, LOW);       //Apaga verde 2
+  digitalWrite (pedestrered2,HIGH);         //Pisca pedestre vermelho 2
+  delay (500);                              //delay 0,5 s
+  digitalWrite (pedestrered2,LOW);
+  delay (500);
+  digitalWrite (pedestrered2,HIGH);
+  delay (500);
+  digitalWrite (pedestrered2,LOW);
+  delay (500);
+  digitalWrite (pedestrered2,HIGH);
+  delay (500);
+  
+  }
