@@ -1,0 +1,71 @@
+// Exercicios 1 a 4
+// Autor Diego Lorena Diniz
+// Data 26/02/2025
+
+#define led1 13
+#define led2 12
+#define led3 11
+#define led4 10
+
+float temperatura=33;
+int bateria=90;
+float valor=10;
+float resultado;
+float reajuste;
+int numero=95;
+int resto;
+
+void setup()
+{
+  Serial.begin(9600);
+  
+  pinMode(led1, OUTPUT); //Define led1 como saida
+  pinMode (led2, OUTPUT); //Define led2 como saida
+  pinMode (led3, OUTPUT); //Define led3 como saida
+  pinMode (led4, OUTPUT); //Define led4 como saida
+ 
+  if (temperatura > 30) { // If para temperatura maior que 30
+  digitalWrite(led1,HIGH); //Acende led1 
+  }
+  
+  if (bateria>20 & bateria<80) { // If para bateria entre 20 e 80
+  digitalWrite(led2, HIGH); // Acende led2 
+  }
+  
+ 
+   resultado=map(valor,0,1023,0,100); //Redefine o intervalo 0-1023 para 0-100
+   reajuste=constrain(resultado, 20,80); // Restringe o resultado entre 20-80
+
+   
+  if (resultado<80 & resultado>20) { // if para resultado entre 20-80
+     Serial.print ("O valor ");
+      Serial.print (resultado);
+      Serial.println (" nao excedeu o limite");
+    
+  } else { // else para valores fora do intervalo d{efinido
+    Serial.print ("O valor ");
+      Serial.print (resultado);
+      Serial.print (" excedeu os limites, valor reajustado para ");
+     Serial.println(reajuste);
+    digitalWrite(led3,HIGH);
+  }
+  resto = numero % 2;
+  
+if (resto==0){
+  Serial.println("O numero eh par");
+  digitalWrite(led4, HIGH);
+}
+  
+else {
+  Serial.println("O numero eh impar");
+}
+
+  } 
+
+
+
+
+void loop()
+{
+ 
+}
