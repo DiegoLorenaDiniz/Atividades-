@@ -1,0 +1,89 @@
+
+// EXERCICIOS 5 A 9 
+// NOME: Diego Lorena Diniz
+// DATA: 27/02/2025
+
+
+int numeroint= -2;
+String nome = "Diego Lorena Diniz";
+String cargo="Engenheiro";
+float salario2=800;
+float salarioreajustado2;
+float salario3=1000;
+float salarioreajustado3;
+int valor1=30;
+int valor2=20;
+float media;
+float nota1=3;
+float nota2=2;
+float nota3=3;
+float nota4=2;
+  
+void setup()
+{
+  Serial.begin(9600);
+  
+  // Exercicio 5
+  if (numeroint>=0) {
+    Serial.println("Numero positivo");
+  } else {
+    Serial.println("Numero negativo");
+  }
+ 
+  
+ // Exercicio 6
+ 
+  Serial.print ("Nome: ");
+  Serial.println (nome);
+  Serial.print ("Cargo: ");
+  Serial.println (cargo);
+  
+  if (salario2<1000) {
+  salarioreajustado2=salario2*1.1;
+    Serial.print("Salario: ");
+    Serial.println(salarioreajustado2);
+  } else {
+    Serial.print("Salario: ");
+    Serial.println (salario2);
+  }
+  
+  
+ // Exercicio 7
+ 
+  if (salario3<500) {
+  salarioreajustado3=salario3*1.3;
+    Serial.print("Salario reajustado: ");
+    Serial.println (salarioreajustado3);
+  } else {
+    Serial.println("Funcionario nao tem direito a aumento");
+  }              
+ 
+  
+ // Exercicio 8
+  
+  if (valor1>valor2){
+    Serial.println(valor1);
+  } else {
+    Serial.println(valor2);
+  }
+ 
+  
+ // Exercicio 9
+  
+  media = (nota1+nota2+nota3+nota4)/4;
+  Serial.println(media);
+  
+  if (media>=7){
+    Serial.println ("APROVADO");
+  } else if (media<7 & media>=5){
+    Serial.println("RECUPERACAO");
+  } else {
+    Serial.println ("REPROVADO");
+  }
+     
+}
+
+void loop()
+{
+ 
+}
