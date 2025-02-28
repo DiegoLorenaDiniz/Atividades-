@@ -1,0 +1,53 @@
+// NOME: Diego Lorena Diniz
+// DATA: 28/02/2025
+
+
+#define ledverde 13
+#define ledamarelo 10
+#define ledlaranja 7
+#define ledazul 5
+#define ledvermelho 2
+
+int numero = 5;
+
+void setup()
+{
+  Serial.begin(9600); 
+  
+pinMode (ledverde, OUTPUT);
+pinMode (ledamarelo, OUTPUT);
+pinMode (ledlaranja, OUTPUT);
+pinMode (ledazul, OUTPUT);
+pinMode (ledvermelho, OUTPUT);
+  
+  switch (numero) {
+  case 1: 
+  digitalWrite(ledverde, HIGH);
+ break;
+  
+  case 2:
+  digitalWrite(ledamarelo, HIGH);
+ break;
+  
+  case 3:
+ digitalWrite(ledlaranja, HIGH);
+ break;
+  
+  case 4:
+  digitalWrite(ledazul, HIGH);
+ break;
+  
+  case 5: 
+  digitalWrite(ledvermelho, HIGH);
+ break;
+  
+  default: 
+  Serial.println("Opcao Invalida");
+  break;
+   }
+}
+
+void loop()
+{
+
+}
