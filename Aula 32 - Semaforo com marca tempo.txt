@@ -1,0 +1,55 @@
+// NOME: Diego Lorena Diniz
+// DATA: 07/03/2025
+
+#define LedVermelho 13
+#define LedAmarelo 12
+#define LedVerde 11
+
+const int TempoVermelho = 5000;
+const int TempoAmarelo = 2000;
+const int TempoVerde = 3000;
+unsigned long TempoInicial = 0;
+unsigned long tempoms;
+char fasesemaforo=1;
+
+void setup()
+{
+  pinMode(LedVermelho, OUTPUT);
+  pinMode(LedVerde, OUTPUT);
+  pinMode (LedAmarelo, OUTPUT);
+}
+
+void loop()
+{
+  tempoms=millis();
+
+  switch (fasesemaforo){
+    
+  case 1:
+    digitalWrite (LedVermelho, HIGH);
+    digitalWrite(LedAmarelo,LOW);
+    if (TempoVermelho+TempoInicial<=tempoms){
+    fasesemaforo=2;
+    TempoInicial=tempoms;
+    }
+    break;
+    
+    case 2:
+    digitalWrite (LedVermelho, LOW);
+    digitalWrite (LedVerde, HIGH);
+    if (TempoVerde+TempoInicial<=tempoms) {
+    fasesemaforo=3;
+    TempoInicial=tempoms;
+    }
+    break;
+    
+    case 3:
+    digitalWrite(LedAmarelo,HIGH);
+    digitalWrite (LedVerde, LOW);
+    if (TempoAmarelo+TempoInicial<=tempoms) {
+    fasesemaforo=1;
+    TempoInicial=tempoms;
+    }
+    break;
+}
+}
