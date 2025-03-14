@@ -1,0 +1,20 @@
+// NOME Diego Lorena Diniz
+// DATA 12/03/2025
+
+#define pinAnalogico A0
+
+void setup()
+{
+  Serial.begin(9600);
+}
+
+void loop()
+{
+ int leituraA0=analogRead(pinAnalogico);
+  float tensao;
+  
+  tensao = (leituraA0*5)/1024.0;
+  
+  Serial.println(tensao,2);
+  
+}

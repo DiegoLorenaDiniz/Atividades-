@@ -1,0 +1,93 @@
+// NOME: Diego Lorena Diniz
+// DATA: 12/03/2025
+// Liga e Desliga 3 LED`s ao apertar botao e exibe status no LCD
+
+#include <LiquidCrystal_I2C.h> 
+// inclui biblioteca LCD
+
+LiquidCrystal_I2C lcd (0x27, 16, 2); // Endereco, coluna, linha)
+
+const int pinLedA=13; 
+const int pinBotao=12;
+const int pinLedB=11;
+const int pinBotao1=10;
+const int pinLedC=9;
+const int pinBotao2=8;
+
+void setup()
+{
+  pinMode (pinLedA, OUTPUT);
+  pinMode (pinBotao, INPUT);
+  pinMode (pinLedB, OUTPUT);
+  pinMode (pinBotao1, INPUT);
+  pinMode (pinLedC, OUTPUT);
+  pinMode (pinBotao2, INPUT);
+  
+  lcd.init(); //Inicia LCD
+  lcd.backlight (); // Acende Luz de fundo
+  lcd.setCursor(0,0); //lcd.home ();
+  lcd.print ("Led 001 002 003"); // Insere o texto no LCD
+  lcd.setCursor (0,1); // Posiciona no inicio da segunda linha
+  lcd.print ("Est OFF OFF OFF");
+}
+
+void loop()
+{
+  bool estadoBotao=digitalRead(pinBotao);
+  bool estadoBotao1=digitalRead(pinBotao1);
+  bool estadoBotao2=digitalRead(pinBotao2);
+  static bool estadoAnteriorBotao=0;
+  static bool estadoLedA=0;
+  static bool estadoAnteriorBotao1=0;
+  static bool estadoLedB=0;
+  static bool estadoAnteriorBotao2=0;
+  static bool estadoLedC=0;
+  
+  // BOTAO 1
+  
+  if (estadoBotao && !estadoAnteriorBotao){ // Botao pressionado
+  estadoLedA=!estadoLedA;
+    digitalWrite(pinLedA, estadoLedA);
+    lcd.setCursor (4,1);
+    
+    if (estadoLedA){
+    lcd.print ("ON ");
+    }
+    else {
+      lcd.print ("OFF");
+    }
+  }
+  estadoAnteriorBotao=estadoBotao;
+  
+  // BOTAO 2 
+  
+  if (estadoBotao1 && !estadoAnteriorBotao1) {
+    estadoLedB=!estadoLedB;
+    digitalWrite (pinLedB, estadoLedB);
+    lcd.setCursor (8,1);
+
+  if (estadoLedB){
+   lcd.print("ON ");
+  }
+  else {
+    lcd.print("OFF");
+  }
+  }
+  estadoAnteriorBotao1=estadoBotao1;
+  
+ // BOTAO 3
+  
+  if (estadoBotao2 && !estadoAnteriorBotao2) {
+    estadoLedC=!estadoLedC;
+    digitalWrite (pinLedC, estadoLedC);
+    lcd.setCursor (12, 1);
+    
+    if (estadoLedC){
+      lcd.print("ON ");
+    }
+    else {
+      lcd.print("OFF");
+    }
+  }
+  estadoAnteriorBotao2=estadoBotao2;
+}

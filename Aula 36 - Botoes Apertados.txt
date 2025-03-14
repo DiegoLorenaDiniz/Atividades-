@@ -1,0 +1,54 @@
+// Nome: Diego Lorena Diniz
+// Data: 13/03/2025
+
+#include <LiquidCrystal_I2C.h> 
+
+LiquidCrystal_I2C lcd (0x27, 16,2);
+
+void setup()
+{
+  lcd.init();
+  lcd.backlight ();
+  Serial.begin (9600);
+}
+
+void loop()
+{
+  float tensao=0;
+  delay(500);
+  tensao = (analogRead(A0)*5.0)/1024.0;
+  Serial.println(tensao);  
+  
+   if (tensao==0) {
+    lcd.setCursor (0,0);
+    lcd.print ("Botao 1 apertado");
+  }
+  
+   if (0.639<tensao && tensao <0.781) {
+    lcd.setCursor (0,0);
+    lcd.print ("Botao 2 apertado");
+  }
+  
+   if (1.449<tensao && tensao <1.771) {
+    lcd.setCursor (0,0);
+    lcd.print ("Botao 3 apertado");
+  }
+  
+   if (2.223<tensao && tensao <2.717) {
+    lcd.setCursor (0,0);
+    lcd.print ("Botao 4 apertado");
+  }
+  
+   if (3.258<tensao && tensao <3.982) {
+    lcd.setCursor (0,0);
+    lcd.print ("Botao 5 apertado");
+  }
+  
+   if (4.5<tensao) {
+    lcd.setCursor (0,0);
+    lcd.print ("Botoes soltos    ");
+  }
+  
+  
+ 
+}

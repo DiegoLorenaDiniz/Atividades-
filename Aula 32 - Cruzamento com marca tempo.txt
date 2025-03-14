@@ -1,0 +1,75 @@
+// NOME: Diego Lorena Diniz
+// DATA: 07/03/2025
+
+#define LedVermelho 13
+#define LedAmarelo 12
+#define LedVerde 11
+#define LedVermelho2 10
+#define LedAmarelo2 9
+#define LedVerde2 8
+
+
+//const int TempoVermelho = 5000;
+const int TempoAmarelo = 2000;
+const int TempoVerde = 3000;
+unsigned long TempoInicial = 0;
+unsigned long tempoms;
+char fasesemaforo=1;
+
+void setup()
+{
+  pinMode(LedVermelho, OUTPUT);
+  pinMode(LedVerde, OUTPUT);
+  pinMode (LedAmarelo, OUTPUT);
+  pinMode(LedVermelho2, OUTPUT);
+  pinMode(LedVerde2, OUTPUT);
+  pinMode (LedAmarelo2, OUTPUT);
+}
+
+void loop()
+{
+  tempoms=millis();
+
+  switch (fasesemaforo){
+    
+  case 1:
+    digitalWrite(LedAmarelo,LOW);
+    digitalWrite (LedVermelho, HIGH);
+    digitalWrite(LedVerde2, HIGH);
+    digitalWrite(LedVermelho2, LOW);
+    if (TempoVerde+TempoInicial<=tempoms){
+    fasesemaforo=2;
+    TempoInicial=tempoms;
+    }
+    break;
+    
+    case 2:
+    digitalWrite (LedVerde2, LOW);
+    digitalWrite (LedAmarelo2, HIGH);
+    if (TempoAmarelo+TempoInicial<=tempoms) {
+    fasesemaforo=3;
+    TempoInicial=tempoms;
+    }
+    break;
+    
+    case 3:
+    digitalWrite(LedVermelho,LOW);
+    digitalWrite (LedVerde, HIGH);
+    digitalWrite (LedAmarelo2, LOW);
+    digitalWrite (LedVermelho2, HIGH);
+    if (TempoVerde+TempoInicial<=tempoms) {
+    fasesemaforo=4;
+    TempoInicial=tempoms;
+    }
+    break;
+    
+    case 4:
+    digitalWrite (LedVerde, LOW);
+    digitalWrite (LedAmarelo, HIGH);
+    if (TempoAmarelo+TempoInicial<=tempoms) {
+      fasesemaforo=1;
+      TempoInicial=tempoms;
+    }
+    break;    
+}
+}

@@ -1,0 +1,65 @@
+// NOME: Diego Lorena Diniz
+// DATA: 12/03/2025
+// Liga e desliga 2 leds ao apertar botao e exibe status no LCD
+ 
+#include <LiquidCrystal_I2C.h> 
+// inclui biblioteca LCD
+
+LiquidCrystal_I2C lcd (0x27, 16, 2); // Endereco, coluna, linha)
+
+const int pinLedA=13; 
+const int pinBotao=12;
+const int pinLedB=11;
+const int pinBotao1=10;
+
+void setup()
+{
+  pinMode (pinLedA, OUTPUT);
+  pinMode (pinBotao, INPUT);
+  pinMode (pinLedB, OUTPUT);
+  pinMode (pinBotao1, INPUT);
+  lcd.init(); //Inicia LCD
+  lcd.backlight (); // Acende Luz de fundo
+  lcd.setCursor(0,0); //lcd.home ();
+  lcd.print ("Led A OFF"); // Insere o texto no LCD
+  lcd.setCursor (0,1); // Posiciona no inicio da segunda linha
+  lcd.print ("Led B OFF");
+}
+
+void loop()
+{
+  bool estadoBotao=digitalRead(pinBotao); // Le estado do botao
+  bool estadoBotao1=digitalRead(pinBotao1);
+  static bool estadoAnteriorBotao=0; // Variavel para guardar estado anterior
+  static bool estadoLedA=0; 
+  static bool estadoAnteriorBotao1=0; // Variavel para guardar estado do Led
+  static bool estadoLedB=0;
+  
+  if (estadoBotao && !estadoAnteriorBotao){ // Botao pressionado
+  estadoLedA=!estadoLedA;// Inverte estado do Led
+    digitalWrite(pinLedA, estadoLedA);
+    lcd.setCursor (6,0);
+    
+    if (estadoLedA){
+    lcd.print ("ON ");
+    }
+    else {
+      lcd.print ("OFF");
+    }
+  }
+  estadoAnteriorBotao=estadoBotao;
+  
+  if (estadoBotao1 && !estadoAnteriorBotao1) {
+    estadoLedB=!estadoLedB;
+    digitalWrite (pinLedB, estadoLedB);
+    lcd.setCursor (6,1);
+
+  if (estadoLedB){
+   lcd.print("ON ");
+  }
+  else {
+    lcd.print("OFF");
+  }
+  }
+  estadoAnteriorBotao1=estadoBotao1;
+}

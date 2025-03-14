@@ -1,0 +1,33 @@
+// NOME: Diego Lorena Diniz
+// DATA: 10/03/2025
+
+#define pinBotao 10
+#define pinLed 13
+int Contador=0;
+unsigned long Tempo;
+
+void setup()
+{
+  pinMode(pinBotao , INPUT);
+  pinMode (pinLed, OUTPUT);
+  Serial.begin (9600);
+}
+
+void loop()
+{
+  bool statusBotao=digitalRead(pinBotao);
+  static bool ultimostatus=0;
+  
+    
+  if (statusBotao==1) {
+    digitalWrite(pinLed,HIGH);    
+  }
+  
+  else digitalWrite (pinLed,LOW);  
+  
+  if (statusBotao && !ultimostatus){
+    Contador++;
+    Serial.println(Contador);
+    } 
+ultimostatus=statusBotao;
+}
