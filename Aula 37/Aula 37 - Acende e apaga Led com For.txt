@@ -1,0 +1,20 @@
+// NOME: Diego Lorena Diniz
+// DATA: 18/03/2025
+
+void setup()
+{
+
+}
+
+void loop()
+{
+    int pinLeds [10]={4,5,6,7,8,9,10,11,12,13};
+  
+  for(int i=0; i<10; i++)
+  {
+    pinMode(pinLeds[i], OUTPUT);
+    digitalWrite(pinLeds[i],HIGH);
+    delay (1000);
+    digitalWrite(pinLeds[i],LOW);
+  }
+}

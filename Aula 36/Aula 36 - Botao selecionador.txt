@@ -1,0 +1,213 @@
+// Nome: Diego Lorena Diniz
+// Data: 13/03/2025
+
+#include <LiquidCrystal_I2C.h> 
+#define valorBotao1 0
+#define valorBotao2 145
+#define valorBotao3 329
+#define valorBotao4 505
+#define valorBotao5 741
+#define pinLedVermelho 11
+#define pinLedVerde 10
+
+
+LiquidCrystal_I2C lcd (0x27, 16,2);
+
+void setup()
+{
+  lcd.init();
+  lcd.backlight ();
+  lcd.setCursor(0,0);
+  lcd.print ("->");
+  lcd.setCursor(3,0);
+  lcd.print("LED 1 OFF");
+  lcd.setCursor(3,1);
+  lcd.print("LED 2 OFF");
+  Serial.begin(9600);
+  pinMode (pinLedVermelho, OUTPUT);
+  pinMode (pinLedVerde, OUTPUT);
+}
+
+void loop()
+{  
+  int valorLeitura = analogRead(A0);
+  static int valorAnteriorLeitura=1023;
+  static bool posicao=0;
+  static bool statusLedVermelho=0;
+  static bool statusLedVerde=0;
+  static int porcentagemVerde=0;
+  static int porcentagemVermelho=0;
+  static int bitVermelho=0;
+  static int bitVerde=0;
+  //static bool alteracao=0;
+  //Serial.println(analogRead(A0));
+  
+  if (valorAnteriorLeitura == 1023 && 
+    valorLeitura == 0) 
+  { // Botao 1 pressionado
+  posicao=0;
+    Serial.println(posicao);
+    lcd.setCursor(0,0);
+    lcd.print ("->");
+    lcd.setCursor(0,1);
+    lcd.print ("  ");
+  }
+  
+  else if (valorAnteriorLeitura == 1023 && 
+           valorLeitura >= valorBotao2*0.9 && // Botao 2 pressionado
+           valorLeitura <= valorBotao2*1.1)
+  {
+    posicao=1;
+    Serial.println(posicao);
+    lcd.setCursor(0,1);
+    lcd.print ("->");
+    lcd.setCursor(0,0);
+    lcd.print ("  ");    
+  }
+  
+  else if (valorAnteriorLeitura == 1023 && 
+           valorLeitura >= valorBotao5*0.9 && //Botao 5 pressionado
+           valorLeitura <= valorBotao5*1.1 && // para posicao 0
+           posicao == 0)
+  {
+    statusLedVermelho=!statusLedVermelho;
+    analogWrite (pinLedVermelho, 0);
+    lcd.setCursor (9,0);
+    if (statusLedVermelho) 
+    {
+      lcd.print("ON ");
+      lcd.setCursor (12,0);
+      lcd.print (porcentagemVermelho);
+      lcd.setCursor (15,0);
+      lcd.print ("%");
+      analogWrite (pinLedVermelho, bitVermelho);
+    }
+    else lcd.print("OFF      ");
+  }
+  
+   else if (valorAnteriorLeitura == 1023 && 
+           valorLeitura >= valorBotao5*0.9 && //Botao 5 pressionado
+           valorLeitura <= valorBotao5*1.1 && //para posicao 1
+           posicao == 1)
+   {
+    statusLedVerde=!statusLedVerde;
+    analogWrite (pinLedVerde, 0);
+    lcd.setCursor (9,1);
+     if (statusLedVerde) 
+     {
+      lcd.print("ON ");
+      lcd.setCursor (12,1);
+      lcd.print (porcentagemVerde);
+      lcd.setCursor (15,1);
+      lcd.print ("%");
+      analogWrite (pinLedVerde, bitVerde);
+     }
+     
+    else 
+    {
+      lcd.print("OFF      "); 
+     // analogWrite (pinLedVerde, bitVerde);
+    }
+  }
+  
+  if (valorAnteriorLeitura==1023 &&
+      valorLeitura >= valorBotao3*0.9 && //Botao 3 pressionado
+      valorLeitura <= valorBotao3*1.1)
+  {
+    if (posicao == 0 && statusLedVermelho)
+    {
+    porcentagemVermelho+=10;
+      if (porcentagemVermelho>100)
+      {
+        porcentagemVermelho=100;
+        bitVermelho=(porcentagemVermelho*255)/100;
+       } 
+      else bitVermelho=(porcentagemVermelho*255)/100;
+        
+      Serial.println(bitVermelho);
+      analogWrite (pinLedVermelho, bitVermelho);
+      lcd.setCursor (12,0);
+      lcd.print (porcentagemVermelho);
+      lcd.setCursor (15,0);
+      lcd.print ("%");
+    }
+    else {
+      if (statusLedVerde) 
+      {
+        porcentagemVerde+=10;
+        if (porcentagemVerde>100)
+        {
+        porcentagemVerde=100;
+        bitVerde=(porcentagemVerde*255)/100;  
+        } else 
+        {
+          bitVerde=(porcentagemVerde*255)/100;
+        
+          Serial.println(bitVerde);
+          analogWrite (pinLedVerde, bitVerde);
+        }
+      bitVerde=(porcentagemVerde*255)/100;
+      analogWrite (pinLedVerde, bitVerde);
+      Serial.println(bitVerde);
+      lcd.setCursor (12,1);
+      lcd.print (porcentagemVerde);
+      lcd.setCursor (15,1);
+      lcd.print ("%");
+      }
+    }
+  }
+  if (valorAnteriorLeitura==1023 &&
+      valorLeitura >= valorBotao4*0.9 && //Botao 4 pressionado
+      valorLeitura <= valorBotao4*1.1)
+  {
+    if (posicao == 0 && statusLedVermelho)
+    {
+      porcentagemVermelho=porcentagemVermelho-10;
+      if (porcentagemVermelho<=0) 
+      {
+        porcentagemVermelho=0;
+        bitVermelho=(porcentagemVermelho*255)/100;
+        lcd.setCursor (9,0);
+        lcd.print ("OFF        ");
+        analogWrite(pinLedVermelho, bitVermelho);
+      }
+      else 
+      {
+      bitVermelho=(porcentagemVermelho*255)/100;
+      Serial.println(bitVermelho);
+      analogWrite (pinLedVermelho, bitVermelho);
+      lcd.setCursor (12,0);
+      lcd.print (porcentagemVermelho);
+      lcd.setCursor (14,0);
+      lcd.print (" %");
+      }
+    }
+    else
+    { 
+      if (statusLedVerde)
+      {
+        porcentagemVerde=porcentagemVerde-10;
+        if (porcentagemVerde <=0)
+        {
+          porcentagemVerde=0;
+          bitVerde=(porcentagemVerde*255)/100;
+          lcd.setCursor (9,1);
+          lcd.print ("OFF        ");
+          analogWrite(pinLedVerde, bitVerde);
+        }
+        else 
+        {
+          bitVerde=(porcentagemVerde*255)/100;       
+          Serial.println(bitVerde);
+          analogWrite (pinLedVerde, bitVerde);
+          lcd.setCursor (12,1);
+          lcd.print (porcentagemVerde);
+          lcd.setCursor (14,1);
+          lcd.print (" %");
+        }
+      }
+    }
+  }   
+  
+    valorAnteriorLeitura=valorLeitura;
+}

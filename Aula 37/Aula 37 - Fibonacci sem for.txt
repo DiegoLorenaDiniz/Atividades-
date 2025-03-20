@@ -1,0 +1,29 @@
+// NOME: Diego Lorena Diniz
+// DATA: 18/03/2025
+// Serie de Fibonacci
+
+ int n1 =1;
+ int n2 = 1;
+ int contador=2;
+
+void setup()
+{  
+Serial.begin(9600);
+Serial.print(n1);
+Serial.print (" ");
+}
+
+void loop()
+{
+  int n;
+  
+  if (contador<15)
+  {
+  n=n1+n2;
+  Serial.print(n2);
+  Serial.print (" ");
+  n1=n2;
+  n2=n;
+  contador=contador+1;   
+  }
+}

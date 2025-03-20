@@ -1,0 +1,34 @@
+// NOME: Diego Lorena Diniz
+// DATA: 12/03/2025 
+
+#include <LiquidCrystal_I2C.h> 
+
+LiquidCrystal_I2C lcd (0x27, 16, 2);
+
+const int pinLedVermelho=13;
+const int pinBotao=8;
+bool statusLed=0;
+bool statusBotao;
+
+
+void setup()
+{
+ Serial.begin(9600);
+ lcd.init(); // Inicia o lcd
+ lcd.backlight(); // Liga luz de fundo 
+ lcd.setCursor(0,1); // Posiciona o cursor na coluna 1 e linha 2
+ lcd.print("Hello World");
+}
+
+void loop()
+{
+  static bool estadoAnterior;
+  statusBotao=digitalRead(pinBotao);
+
+  if (statusBotao && !estadoAnterior){
+   statusLed=!statusLed;
+    digitalWrite (pinLedVermelho, statusLed); 
+   
+  }
+  estadoAnterior=statusBotao;
+  }
