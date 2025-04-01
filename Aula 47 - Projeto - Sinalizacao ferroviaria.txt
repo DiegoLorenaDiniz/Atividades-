@@ -1,0 +1,98 @@
+// NOME: Diego Lorena Diniz
+// DATA: 01/04/2025
+// Apresentacao Projeto Sinal Ferroviario
+
+#include <Arduino.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd (0x27, 20, 4);
+#define pinLedVermelho 18
+#define pinLedAmarelo 5
+#define pinLedVerde 2
+#define pinBotao1 23
+#define pinBotao2 4
+
+
+void setup()
+{
+ pinMode(pinLedVermelho, OUTPUT);
+ pinMode(pinLedAmarelo, OUTPUT);
+ pinMode(pinLedVerde, OUTPUT);
+ pinMode(pinBotao1, INPUT_PULLUP);
+ pinMode(pinBotao2, INPUT_PULLUP); 
+  
+ Serial.begin(9600);
+ lcd.init ();
+ lcd.backlight();
+
+}
+
+void loop()
+{
+    static bool statusBotao1;
+    static bool statusBotao2;
+    static bool statusLedVermelho;
+    static bool statusLedVerde;
+    static bool statusLedAmarelo;
+    static bool estadoAnteriorVermelho;
+    static bool estadoAnteriorAmarelo;
+    static bool estadoAnteriorVerde;
+    
+    statusBotao1=digitalRead(pinBotao1);
+    statusBotao2=digitalRead(pinBotao2);
+    //Serial.println(estadoAnteriorBotao1);
+    
+   if (statusBotao1 && statusBotao2)
+   {
+    statusLedAmarelo=0;
+    statusLedVermelho=0;
+    statusLedVerde=1; 
+
+    lcd.setCursor(0,0);
+    lcd.print ("CDV 1 - LIVRE  ");
+    lcd.setCursor(0,1);
+    lcd.print ("Vel MAX 90 km/h     ");
+    lcd.setCursor(0,2);
+    lcd.print ("CDV 2 - LIVRE  ");
+    lcd.setCursor(0,3);
+    lcd.print ("               ");
+   }
+
+   if (!statusBotao2) 
+    {
+      statusLedAmarelo=0;
+      statusLedVerde=0; 
+      statusLedVermelho=1; 
+
+    lcd.setCursor(0,0);
+    lcd.print ("CDV 1 - OCUPADO");
+    lcd.setCursor(0,1);
+    lcd.print ("Vel MAX 00 km/h     ");
+    lcd.setCursor(0,2);
+    lcd.print ("CDV 2 - LIVRE  ");
+    lcd.setCursor(0,3);
+    lcd.print ("               ");
+    }
+
+    if(!statusBotao1)
+    {
+      statusLedVermelho=0;
+      statusLedVerde=0;
+      statusLedAmarelo=1;
+
+    lcd.setCursor(0,0);
+    lcd.print ("CDV 1 - LIVRE  ");
+    lcd.setCursor(0,1);
+    lcd.print ("Vel Restrita 50 km/h");
+    lcd.setCursor(0,2);
+    lcd.print ("CDV 2 - OCUPADO");
+    lcd.setCursor(0,3);
+    lcd.print ("               ");
+    }
+
+   //LIGA E DESLIGA LEDS
+    digitalWrite(pinLedVermelho, statusLedVermelho);
+    digitalWrite(pinLedVerde, statusLedVerde);
+    digitalWrite(pinLedAmarelo, statusLedAmarelo);
+
+}

@@ -1,0 +1,36 @@
+#include <Arduino.h>
+
+int calculasegundograu1(int, int, int);
+int calculasegundograu2(int, int, int);
+
+void setup()
+{
+  Serial.begin(9600);
+  int v1=5;
+  int v2=0;
+  int v3=-45;
+  int x1;
+  int x2;
+  x1 = calculasegundograu1(v1, v2, v3);
+  x2 = calculasegundograu2(v1, v2, v3);
+  Serial.println(x1);
+  Serial.println(x2);
+}
+
+void loop()
+{
+}
+
+int calculasegundograu1(int a, int b, int c)
+{
+  int raiz1;
+  raiz1 = (-b + sqrt((b * b ) - 4 * a * c)) / (2 * a);
+  return raiz1;
+}
+
+int calculasegundograu2(int a, int b, int c)
+{
+  int raiz2;
+  raiz2 = (-b - sqrt((b * b ) - 4 * a * c)) / (2 * a);
+  return raiz2;
+}
