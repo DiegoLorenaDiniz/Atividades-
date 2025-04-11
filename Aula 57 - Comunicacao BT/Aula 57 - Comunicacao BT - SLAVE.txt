@@ -1,0 +1,56 @@
+// NOME: Diego Lorena Diniz
+// DATA: 08/04/2025
+// Aula 55 - Conexao BT SLAVE
+
+// ESP Slave
+
+void setup()
+{
+  Serial.begin(9600);
+  SerialBT.begin("ESPirro");
+
+  Serial.println("Esperando uma conexao Bluetooth");
+  pinMode(pinLed, OUTPUT);
+}
+
+void loop()
+{
+  {
+    if (SerialBT.available())
+    {
+      String mensagem = SerialBT.readStringUntil('\n');
+      Serial.printf("Mensagem recebida: %s", mensagem);
+
+      if (mensagem.equals("ping"))
+      {
+        SerialBT.print("pong\n\r");
+      }
+      if (mensagem.equals("liga"))
+      {
+        digitalWrite(pinLed, HIGH);
+        SerialBT.print("Led ligado\n\r");
+      }
+
+      if (mensagem.equals("desliga"))
+      {
+        digitalWrite(pinLed, LOW);
+        SerialBT.print("Led desligado\n\r");
+      }
+
+      if (mensagem.equals("pisca"))
+      {
+        while (true)
+        {
+          digitalWrite(pinLed, HIGH);
+          delay(250);
+          digitalWrite(pinLed, LOW);
+          delay(250);
+          SerialBT.print("Led piscando\n\r");
+          mensagem = SerialBT.readStringUntil('\n');
+          if (mensagem.equals("stoPisca"))
+            break;
+        }
+      }
+    }
+  }
+}

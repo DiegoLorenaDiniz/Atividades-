@@ -1,0 +1,49 @@
+// NOME: Diego Lorena Diniz
+// DATA: 02/04/2025
+// Aula 47 - Encoder
+
+#include <Arduino.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 20, 4);
+#define canalA 19
+#define canalB 18
+#define pinSW 5
+
+const int8_t tabelaTransicao[4][4] = {
+    {0, -1, 1, 0},
+    {1, 0, 0, -1},
+    {-1, 0, 0, 1},
+    {0, 1, -1, 0}
+    };
+
+void setup()
+{
+    pinMode(canalA, INPUT);
+    pinMode(canalB, INPUT);
+
+    Serial.begin(9600);
+    lcd.init();
+    lcd.backlight();
+    lcd.print("TESTE");
+}
+
+void loop()
+{
+    bool leituraCanalA = digitalRead(canalA);
+    bool leituraCanalB = digitalRead(canalB);
+    // bool leituraAnteriorCanalA;
+    // bool leituraAnteriorCanalB;
+    int estadoAtualEncoder = (leituraCanalA << 1 | leituraCanalB);
+    static int estadoAnteriorEncoder = 3;
+    static int posicao = 0;
+    static int exibe;
+
+    if (estadoAnteriorEncoder != estadoAtualEncoder)
+    {
+        posicao =  tabelaTransicao[estadoAnteriorEncoder][estadoAtualEncoder];
+        // exibe=posicao/4;
+        Serial.println(posicao);
+    }
+    estadoAnteriorEncoder = estadoAtualEncoder;
+}

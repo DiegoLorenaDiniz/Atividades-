@@ -1,0 +1,49 @@
+// NOME: Diego Lorena Diniz
+// DATA: 08/04/2025
+// Aula 53 - Estruturas de dados
+
+#include <Arduino.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 20, 4);
+struct Pessoa
+{
+    char nome [20];
+    int idade;
+    float altura;
+    bool calvicie;
+};
+
+Pessoa aluno;
+Pessoa professor;
+
+void setup()
+{
+ Serial.begin(9600);
+
+ strcpy(aluno.nome, "Diego");
+ aluno.idade=29;
+ aluno.altura=1.78;
+ aluno.calvicie=true;
+
+ strcpy (professor.nome, "Odirlei");
+ professor.idade=47;
+ professor.altura=1.80;
+ professor.calvicie=false;
+
+ Serial.printf("meu nome eh %s \n\r", aluno.nome); // \n quebra linha ; \r retorna o carro para inicio da linha; %s insere parametro char 
+ Serial.printf("E tenho %d anos \n\r", aluno.idade); // %d insere parametro int
+ Serial.printf("Tenho %.2f metros de altura \n\r", aluno.altura); // %f insere parametro float, .2 float com 2 casas decimais
+ Serial.printf  ("E %s calvo \n\r", aluno.calvicie ? "sou" : "nao sou"); //Ternario - (condicao ? caso verdadeiro : caso falso)
+
+ Serial.printf("meu nome eh %s \n\r", professor.nome);
+ Serial.printf("E tenho %d anos \n\r", professor.idade);
+ Serial.printf("Tenho %.2f metros de altura \n\r", professor.altura);
+ Serial.printf  ("E %s calvo \n\r", professor.calvicie ? "sou" : "nao sou");
+
+}
+
+void loop()
+{
+    
+}

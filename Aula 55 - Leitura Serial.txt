@@ -1,0 +1,75 @@
+// NOME: Diego Lorena Diniz
+// DATA: 08/04/2025
+// Aula 55 - Leitura Serial
+
+#include <Arduino.h>
+#include <LiquidCrystal_I2C.h>
+#include "BluetoothSerial.h"
+
+#define pinLed 2
+
+//Instancias de Objeto
+
+BluetoothSerial SerialBT;
+
+String palavra="";
+
+LiquidCrystal_I2C lcd(0x27, 20, 4);
+
+void setup()
+{
+    Serial.begin(9600);
+    SerialBT.begin("ESPDiego2");
+    SerialBT.println("Digite algo no monitor serial");
+
+    pinMode(pinLed, OUTPUT);
+}
+
+void loop()
+{
+    while (SerialBT.available())
+    {
+        char caractere = SerialBT.read();
+        char exibe;
+
+        if(caractere == '\n' || caractere == '\n')
+        {
+            SerialBT.println(palavra);
+            if (palavra.equals("liga"))
+            {
+                digitalWrite(pinLed, HIGH);
+            }
+            else if (palavra.equals("desliga"))
+            {
+                digitalWrite(pinLed, LOW);
+            }
+            else 
+            {
+                SerialBT.println("Comando nao reconhecido");
+                Serial.println(palavra);
+            }
+
+            palavra="";
+        }
+        else if (caractere != '\r')
+        {
+            palavra+=caractere;
+        }
+
+    /*    if (caractere == 'L')
+        {
+            digitalWrite(pinLed, HIGH);
+            Serial.println("Led Ligado");
+        }
+        else if (caractere == 'D')
+        {
+            digitalWrite(pinLed, LOW);
+            Serial.println("Led Desligado");
+        }
+        else
+        {
+            Serial.println("Digite apenas L ou D");
+            Serial.printf("Voce digitou %c \n\r", caractere);
+        }*/
+    }
+}

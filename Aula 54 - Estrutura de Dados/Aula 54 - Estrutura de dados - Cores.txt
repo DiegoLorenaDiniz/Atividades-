@@ -1,0 +1,64 @@
+// NOME: Diego Lorena Diniz
+// DATA: 08/04/2025
+// Aula 53 - Estruturas de dados
+
+#include <Arduino.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 20, 4);
+struct Cor
+{
+    int r;
+    int g;
+    int b;
+};
+
+Cor azulClaro;
+Cor pink;
+Cor chartreuse;
+Cor amarelo;
+Cor magenta;
+Cor ciano;
+
+void setup()
+{
+    
+ Serial.begin(9600);
+
+ azulClaro.r=0; // NAO TEM
+ azulClaro.g=128;
+ azulClaro.b=255;
+
+ pink.r=255; // NAO TEM
+ pink.g=0;
+ pink.b=128;
+
+ chartreuse.r=128; // CERTO
+ chartreuse.g=255;
+ chartreuse.b=0;
+
+ amarelo.r=255; // CERTO
+ amarelo.g=255;
+ amarelo.b=0;
+
+ ciano.r=0; // CERTO
+ ciano.g=255;
+ ciano.b=255;
+
+ magenta.r=255; // CERTO
+ magenta.g=0;
+ magenta.b=255;
+
+Serial.printf("Cor: AZUL CLARO: Vermelho %d; Verde %d; Azul %d \n\r", azulClaro.r, azulClaro.g, azulClaro.b);
+Serial.printf("Cor: PINK: Vermelho %d; Verde %d; Azul %d \n\r", pink.r, pink.g, pink.b);
+Serial.printf("Cor: CHARTREUSE: Vermelho %d; Verde %d; Azul %d \n\r", chartreuse.r, chartreuse.g, chartreuse.b);
+Serial.printf("Cor: AMARELO: Vermelho %d; Verde %d; Azul %d \n\r", amarelo.r, amarelo.g, amarelo.b);
+Serial.printf("Cor: CIANO: Vermelho %d; Verde %d; Azul %d \n\r", ciano.r, ciano.g, ciano.b);
+Serial.printf("Cor: MAGENTA: Vermelho %d; Verde %d; Azul %d \n\r", magenta.r, magenta.g, magenta.b);
+
+}
+
+void loop()
+{
+    
+}

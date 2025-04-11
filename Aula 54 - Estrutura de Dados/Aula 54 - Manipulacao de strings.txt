@@ -1,0 +1,43 @@
+// NOME: Diego Lorena Diniz
+// DATA: 08/04/2025
+// Aula 53 - Manipulacao de string
+
+#include <Arduino.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 20, 4);
+
+char nome [20];
+char nome2[20];
+
+void setup()
+{
+
+ Serial.begin(9600);
+ strcpy(nome, "Diego"); // Atribui uma string a uma cadeia de caracteres
+ Serial.println (nome);
+ strcat(nome, " L. Diniz");// Concatena strings a um vetor
+ Serial.println(nome);
+ strcpy(nome2, "Diego Diniz");
+ int tamanho=strlen(nome); // Informa o tamanho do dado, quantidade de caracteres 
+ Serial.println(tamanho);
+ if (strcmp("Diego L. Diniz", nome)==0) Serial.println("Sao iguais");
+ else Serial.println("Sao diferentes");
+ if(strcmp(nome, nome2)==0) Serial.println("Sao Iguais");
+ else Serial.println("Sao diferentes");
+ if (strncmp(nome,nome2,5)==0) // Compara os 5 primeiros caracteres
+ Serial.println("OS 5 primeiros Sao iguais");
+ else Serial.println("Os 5 primeiros Sao diferentes");
+
+ char buffer[50];
+ int temperatura=25;
+
+sprintf(buffer, "Temperatura: %d C", temperatura); //Adiciona a um vetor um texto como um printf
+Serial.println(buffer);
+
+}
+
+void loop()
+{
+    
+}
