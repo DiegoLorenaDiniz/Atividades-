@@ -1,0 +1,92 @@
+#include <Arduino.h>
+#include <BluetoothSerial.h>
+
+BluetoothSerial SerialBT;
+#define pinLed 2
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(pinLed, OUTPUT);
+  SerialBT.begin("SlaveEspirro");
+
+  if (!SerialBT.begin("SlaveEspirro", false))
+  {
+    Serial.println("Erro ao iniciar Bluetooth como Slave");
+  }
+  else
+    Serial.println("Conexao instaurada com sucesso");
+}
+
+void loop()
+{
+  if (Serial.available())
+  {
+    String comandoEnviar = Serial.readStringUntil('\n');
+    comandoEnviar.trim();
+    SerialBT.println(comandoEnviar);
+  }
+
+  if (SerialBT.available())
+  {
+    String comandoReceber = SerialBT.readStringUntil('\n');
+    comandoReceber.trim();
+    comandoReceber.toLowerCase();
+    Serial.printf("Comando recebido: %s\n\r", comandoReceber);
+
+    bool estadoLed = 0;
+    bool piscaLed = 0;
+    static unsigned long tempoAtual = millis();
+    static unsigned long tempoInicial = 0;
+    static int frequenciaLed = 50;
+
+    digitalWrite(pinLed, estadoLed);
+
+    if (comandoReceber.equals("liga"))
+    {
+      !estadoLed;
+    }
+
+    if (comandoReceber.equals("desliga"))
+    {
+      estadoLed;
+    }
+
+    if (comandoReceber.equals("pisca"))
+    {
+      !estadoLed;
+      !piscaLed;
+    }
+
+    if (comandoReceber.equals("+"))
+    {
+      frequenciaLed -= 50;
+      if (frequenciaLed < 50)
+      {
+        frequenciaLed = 50;
+        Serial.println("Velocidade maxima atingida");
+      }
+    }
+
+    if (comandoReceber.equals("-"))
+    {
+      frequenciaLed += 50;
+      if (frequenciaLed > 500)
+      {
+        frequenciaLed = 500;
+        Serial.println("Velocidade minima atingida");
+      }
+    }
+
+    else
+    {
+      Serial.println("Comando nao reconhecido");
+    }
+
+    if (tempoAtual - tempoInicial > frequenciaLed && piscaLed)
+    {
+      estadoLed = !estadoLed;
+      tempoInicial = tempoAtual;
+    }
+  }
+}

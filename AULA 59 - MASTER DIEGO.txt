@@ -1,0 +1,81 @@
+AULA 59 - MASTER DIEGO
+
+ 
+#include <Arduino.h>
+#include <BluetoothSerial.h>
+
+BluetoothSerial SerialBT;
+
+#define pinLed 2
+
+void setup()
+{
+  Serial.begin(9600);
+  SerialBT.begin("MasterEspreme", true);
+
+  pinMode(pinLed, OUTPUT);
+
+  // Inicia comunicacao serial bluetooth com nome MasterDiego, caso retorne 0, exibe mensagem.
+  if (!SerialBT.begin("MasterEspreme", true))
+    Serial.println("Erro ao iniciar o Bluetooth no modo Master");
+
+  //SerialBT.connect("SlaveEspirro");
+
+  // Conecta com SlaveEspirro, se conectado exibe primeira mensagem, se falhar ao conectar exibe segunda mensgaem
+  if (SerialBT.connect("SlaveEspirro"))
+    Serial.println("Conectado com sucesso no SlaveEspirro");
+  else
+    Serial.println("Falha ao se conectar no SlaveEspirro");
+}
+
+void loop()
+{
+  if (Serial.available())
+  {
+    String comandoEnviar = Serial.readStringUntil('\n');
+    comandoEnviar.trim();
+    SerialBT.println(comandoEnviar);
+  }
+
+  if (SerialBT.available())
+  {
+    String comandoReceber = SerialBT.readStringUntil('\n');
+    comandoReceber.trim();
+    Serial.printf("Comando Recebido: %s\n\r", comandoReceber);
+
+    static bool statusLed = 0;
+    static unsigned long tempoAtual = millis();
+    static unsigned long tempoAnterior = 0;
+    int tempoPisca = 1000;
+
+    // Se comando liga, exibe o comando e altera status do Led
+    if (comandoReceber.equals("liga"))
+    {
+      Serial.printf("Comando Recebido: %s \n\r", comandoReceber);
+      statusLed = 1;
+    }
+
+    // Se comando desliga, exibe o comando e altera status do Led
+    else if (comandoReceber.equals("desliga"))
+    {
+      Serial.printf("Comando Recebido: %s \n\r", comandoReceber);
+      statusLed = 0;
+    }
+
+    // Se comando liga, exibe o comando e ativa o led piscando
+    else if (comandoReceber.equals("pisca"))
+    {
+      Serial.printf("Comando Recebido: %s \n\r", comandoReceber);
+
+      if (tempoAtual - tempoAnterior > tempoPisca)
+        statusLed = !statusLed;
+    }
+
+    // Se comando nao for reconhecido
+    else
+      Serial.println("Comando nao reconhecido");
+
+    digitalWrite(pinLed, statusLed);
+    tempoAnterior = tempoAtual;
+  }
+}

@@ -1,0 +1,37 @@
+#include <Arduino.h>
+#include <BluetoothSerial.h>
+
+BluetoothSerial SerialBT;
+
+void setup() 
+{
+  Serial.begin(9600);
+  if(!SerialBT.begin("SlaveDiniz", false)) Serial.println("Erro ao conectar no modo Slave");
+
+}
+
+void loop() 
+{
+  if (Serial.available())
+  {
+    String comandoEnviar=Serial.readStringUntil('\n');
+    comandoEnviar.trim();
+    SerialBT.println(comandoEnviar);
+  }
+
+  if (SerialBT.available())
+  {
+    String comandoReceber=SerialBT.readStringUntil('\n');
+    comandoReceber.trim();
+    Serial.printf("Comando Recebido: %s\n\r, comandoReceber");
+
+    if(comandoReceber.equals("liga"))
+    {
+
+    }
+    else
+    {
+      Serial.println("Comando nao reconhecido");
+    }
+  }
+}
